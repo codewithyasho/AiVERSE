@@ -1,0 +1,12 @@
+crewai[google-genai]
+crewai 
+crewai-tools
+litellm
+streamlit
+python-dotenv
+fastapi
+apscheduler
+email-validator
+pydantic[email]
+fastapi-sso
+

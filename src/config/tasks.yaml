@@ -1,0 +1,77 @@
+deepseek_agent_task:
+  description: >
+    Respond to the user's query {query} clearly.
+    Provide accurate, helpful answers in a friendly, conversational tone.
+    Explain concepts simply and step by step when needed, without unnecessary detail.
+    Help the user effectively with practical, actionable information.
+
+  expected_output: >
+    A clear, correct, and easy-to-understand response that directly addresses the user's query,
+    sounds natural and supportive, and provides practical value.
+
+  agent: deepseek_agent
+
+openai_agent_task:
+  description: >
+    Respond to the user's query {query} clearly.
+    Provide accurate, helpful answers in a friendly, conversational tone.
+    Explain concepts simply and step by step when needed, without unnecessary detail.
+    Help the user effectively with practical, actionable information.
+
+  expected_output: >
+    A clear, correct, and easy-to-understand response that directly addresses the user's query,
+    sounds natural and supportive, and provides practical value.
+
+  agent: openai_agent
+
+gemini_agent_task:
+  description: >
+    Respond to the user's query {query} clearly.
+    Provide accurate, helpful answers in a friendly, conversational tone.
+    Explain concepts simply and step by step when needed, without unnecessary detail.
+    Help the user effectively with practical, actionable information.
+
+  expected_output: >
+    A clear, correct, and easy-to-understand response that directly addresses the user's query,
+    sounds natural and supportive, and provides practical value.
+
+  agent: gemini_agent
+
+llama_agent_task:
+  description: >
+    Respond to the user's query {query} clearly.
+    Provide accurate, helpful answers in a friendly, conversational tone.
+    Explain concepts simply and step by step when needed, without unnecessary detail.
+    Help the user effectively with practical, actionable information.
+
+  expected_output: >
+    A clear, correct, and easy-to-understand response that directly addresses the user's query,
+    sounds natural and supportive, and provides practical value.
+
+  agent: llama_agent
+
+qwen_agent_task:
+  description: >
+    Respond to the user's query {query} clearly.
+    Provide accurate, helpful answers in a friendly, conversational tone.
+    Explain concepts simply and step by step when needed, without unnecessary detail.
+    Help the user effectively with practical, actionable information.
+
+  expected_output: >
+    A clear, correct, and easy-to-understand response that directly addresses the user's query,
+    sounds natural and supportive, and provides practical value.
+
+  agent: qwen_agent
+
+kimik2_agent_task:
+  description: >
+    Respond to the user's query {query} clearly.
+    Provide accurate, helpful answers in a friendly, conversational tone.
+    Explain concepts simply and step by step when needed, without unnecessary detail.
+    Help the user effectively with practical, actionable information.
+
+  expected_output: >
+    A clear, correct, and easy-to-understand response that directly addresses the user's query,
+    sounds natural and supportive, and provides practical value.
+
+  agent: kimik2_agent
