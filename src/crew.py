@@ -36,12 +36,6 @@ class AIVerseCrew():
         )
 
     @agent
-    def gemini_agent(self) -> Agent:
-        return Agent(
-            config=self.agents_config["gemini_agent"],
-        )
-
-    @agent
     def llama_agent(self) -> Agent:
         return Agent(
             config=self.agents_config["llama_agent"],
@@ -74,13 +68,6 @@ class AIVerseCrew():
         return Task(
             config=self.tasks_config["openai_agent_task"],
             output_file="outputs/openai-gpt-task.md",
-        )
-
-    @task
-    def gemini_agent_task(self) -> Task:
-        return Task(
-            config=self.tasks_config["gemini_agent_task"],
-            output_file="outputs/google-gemini-task.md",
         )
 
     @task

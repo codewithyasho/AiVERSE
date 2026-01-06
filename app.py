@@ -8,6 +8,8 @@ import os
 from pathlib import Path
 from src.crew import AIVerseCrew
 import time
+from src.gemma_client import run_gemma
+
 
 # Page configuration
 st.set_page_config(
@@ -94,7 +96,6 @@ st.markdown('<div class="tagline">One Window. 6 Perspectives.</div>',
 st.markdown("")
 
 
-
 # Main content
 col1, col2 = st.columns([2, 1])
 
@@ -139,10 +140,17 @@ if run_button and query:
                     "🟢 OpenAI GPT Agent: Analyzing...")
                 progress_bar.progress(30)
 
-                # Update progress - Gemini
-                status_text.text(
-                    "🔵 Google Gemini Agent: Thinking...")
+                # Run Gemma directly (NO CrewAI)
+                status_text.text("🔵 Google Gemma Agent: Thinking...")
                 progress_bar.progress(45)
+
+                gemma_prompt = f"""
+                Explain the following in a simple, beginner-friendly way with examples:
+
+                {query}
+                """
+
+                st.session_state.gemini_response = run_gemma(gemma_prompt)
 
                 # Update progress - Llama
                 status_text.text(

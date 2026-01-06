@@ -21,14 +21,17 @@ st.markdown("""
     <style>
     .main-header {
         font-size: 3rem;
-        font-weight: bold;
-        color: #6366F1;
+        font-weight: 900;
+        background: linear-gradient(135deg, #A855F7 0%, #EC4899 50%, #F59E0B 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
         text-align: center;
         margin-bottom: 0.5rem;
     }
     .tagline {
         font-size: 1.5rem;
-        color: #8B5CF6;
+        color: #A855F7;
         text-align: center;
         font-style: italic;
         margin-bottom: 0.5rem;
@@ -41,14 +44,14 @@ st.markdown("""
     }
     .stButton>button {
         width: 100%;
-        background-color: #6366F1;
+        background-color: #A855F7;
         color: white;
         font-weight: bold;
         border-radius: 5px;
         padding: 0.5rem 1rem;
     }
     .stButton>button:hover {
-        background-color: #4F46E5;
+        background-color: #9333EA;
     }
     .output-box {
         background-color: #f0f2f6;
@@ -84,23 +87,22 @@ if 'kimik2_response' not in st.session_state:
     st.session_state.kimik2_response = None
 
 # Header
-st.markdown('<div class="main-header">AIVerse</div>',
+st.markdown('<div class="main-header">AiVERSE</div>',
             unsafe_allow_html=True)
 st.markdown('<div class="tagline">One Window. 6 Perspectives.</div>',
             unsafe_allow_html=True)
-# st.markdown('<div class="sub-header">Get answers from 6 different AI models simultaneously - DeepSeek, OpenAI, Gemini, Llama, Qwen & Kimi K2</div>', unsafe_allow_html=True)
+st.markdown("")
 
 
 # Main content
 col1, col2 = st.columns([2, 1])
 
 with col1:
-    st.header("Ask Your Question")
     query = st.text_input(
-        label="Enter your question", placeholder="How can AI transform the future of education?", label_visibility="collapsed")
+        label="Enter your question", placeholder="Ask Your Question Here...", label_visibility="collapsed")
 
 with col2:
-    run_button = st.button("Send", type="primary",
+    run_button = st.button("SUBMIT", type="primary",
                            disabled=st.session_state.crew_running)
 
 # Run the crew
