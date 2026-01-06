@@ -118,32 +118,32 @@ if run_button and query:
     st.session_state.kimik2_response = None
 
     with st.spinner("6 AI Agents are analyzing your question..."):
-        # Create progress indicators
-        progress_container = st.container()
-        with progress_container:
-            # st.subheader("Loading AI Responses...")
-            progress_bar = st.progress(0)
-            status_text = st.empty()
-            error_messages = []
+        try:
+            # Create progress indicators
+            progress_container = st.container()
+            with progress_container:
+                # st.subheader("Loading AI Responses...")
+                progress_bar = st.progress(0)
+                status_text = st.empty()
 
-            # Update progress - DeepSeek
-            status_text.text(
-                "🟣 DeepSeek Agent: Processing your query...")
-            progress_bar.progress(15)
+                # Update progress - DeepSeek
+                status_text.text(
+                    "🟣 DeepSeek Agent: Processing your query...")
+                progress_bar.progress(15)
 
-            # Run the crew
-            inputs = {"query": query}
+                # Run the crew
+                inputs = {"query": query}
+                crew_instance = AIVerseCrew()
 
-            # Update progress - OpenAI
-            status_text.text(
-                "🟢 OpenAI GPT Agent: Analyzing...")
-            progress_bar.progress(30)
+                # Update progress - OpenAI
+                status_text.text(
+                    "🟢 OpenAI GPT Agent: Analyzing...")
+                progress_bar.progress(30)
 
-            # Run Gemma directly (NO CrewAI)
-            status_text.text("🔵 Google Gemma Agent: Thinking...")
-            progress_bar.progress(45)
+                # Run Gemma directly (NO CrewAI)
+                status_text.text("🔵 Google Gemma Agent: Thinking...")
+                progress_bar.progress(45)
 
-            try:
                 gemma_prompt = f"""
                 Explain the following in a simple, beginner-friendly way with examples:
 
@@ -151,136 +151,71 @@ if run_button and query:
                 """
 
                 st.session_state.gemini_response = run_gemma(gemma_prompt)
-            except Exception as gemma_error:
-                error_messages.append(f"Google Gemini: {str(gemma_error)}")
-                st.session_state.gemini_response = f"⚠️ **Error generating response:** {str(gemma_error)}\n\nThis model is currently unavailable, but other models are still working."
 
-            # Update progress - Llama
-            status_text.text(
-                "🔴 Meta Llama Agent: Responding...")
-            progress_bar.progress(60)
+                # Update progress - Llama
+                status_text.text(
+                    "🔴 Meta Llama Agent: Responding...")
+                progress_bar.progress(60)
 
-            # Update progress - Qwen
-            status_text.text(
-                "🟠 Alibaba Qwen Agent: Processing...")
-            progress_bar.progress(75)
+                # Update progress - Qwen
+                status_text.text(
+                    "🟠 Alibaba Qwen Agent: Processing...")
+                progress_bar.progress(75)
 
-            # Update progress - Kimi K2
-            status_text.text(
-                "🟡 Moonshot Kimi K2 Agent: Finalizing...")
-            progress_bar.progress(85)
+                # Update progress - Kimi K2
+                status_text.text(
+                    "🟡 Moonshot Kimi K2 Agent: Finalizing...")
+                progress_bar.progress(85)
 
-            # Execute the crew with error handling
-            try:
-                crew_instance = AIVerseCrew()
+                # Execute the crew
                 result = crew_instance.crew().kickoff(inputs=inputs)
-            except Exception as crew_error:
-                error_messages.append(f"Crew AI Agents: {str(crew_error)}")
-                st.warning(
-                    f"⚠️ Some AI agents encountered errors: {str(crew_error)}")
 
-            # Update progress - Reading files
-            # status_text.text("📂 Collecting all responses...")
-            # progress_bar.progress(90)
+                # Update progress - Reading files
+                # status_text.text("📂 Collecting all responses...")
+                # progress_bar.progress(90)
 
-            # Read the generated files with individual error handling
-            deepseek_path = Path("outputs/deepseek-task.md")
-            openai_path = Path("outputs/openai-gpt-task.md")
-            gemini_path = Path("outputs/google-gemini-task.md")
-            llama_path = Path("outputs/meta-llama3-task.md")
-            qwen_path = Path("outputs/alibaba-qwen-task.md")
-            kimik2_path = Path("outputs/kimi-k2-task.md")
+                # Read the generated files
+                deepseek_path = Path("outputs/deepseek-task.md")
+                openai_path = Path("outputs/openai-gpt-task.md")
+                gemini_path = Path("outputs/google-gemini-task.md")
+                llama_path = Path("outputs/meta-llama3-task.md")
+                qwen_path = Path("outputs/alibaba-qwen-task.md")
+                kimik2_path = Path("outputs/kimi-k2-task.md")
 
-            # DeepSeek
-            try:
                 if deepseek_path.exists():
                     with open(deepseek_path, 'r', encoding='utf-8') as f:
                         st.session_state.deepseek_response = f.read()
-                else:
-                    st.session_state.deepseek_response = "⚠️ **No response generated.** This model may be experiencing rate limits or errors."
-            except Exception as e:
-                error_messages.append(f"DeepSeek file read: {str(e)}")
-                st.session_state.deepseek_response = f"⚠️ **Error reading response:** {str(e)}"
 
-            # OpenAI
-            try:
                 if openai_path.exists():
                     with open(openai_path, 'r', encoding='utf-8') as f:
                         st.session_state.openai_response = f.read()
-                else:
-                    st.session_state.openai_response = "⚠️ **No response generated.** This model may be experiencing rate limits or errors."
-            except Exception as e:
-                error_messages.append(f"OpenAI file read: {str(e)}")
-                st.session_state.openai_response = f"⚠️ **Error reading response:** {str(e)}"
 
-            # Gemini (already handled above, but add fallback)
-            try:
                 if gemini_path.exists():
                     with open(gemini_path, 'r', encoding='utf-8') as f:
-                        saved_response = f.read()
-                        if saved_response:  # Only override if file has content
-                            st.session_state.gemini_response = saved_response
-            except Exception as e:
-                error_messages.append(f"Gemini file read: {str(e)}")
-                # Keep the direct response if file reading fails
+                        st.session_state.gemini_response = f.read()
 
-            # Meta Llama
-            try:
                 if llama_path.exists():
                     with open(llama_path, 'r', encoding='utf-8') as f:
                         st.session_state.llama_response = f.read()
-                else:
-                    st.session_state.llama_response = "⚠️ **No response generated.** This model may be experiencing rate limits or errors."
-            except Exception as e:
-                error_messages.append(f"Meta Llama file read: {str(e)}")
-                st.session_state.llama_response = f"⚠️ **Error reading response:** {str(e)}"
 
-            # Alibaba Qwen
-            try:
                 if qwen_path.exists():
                     with open(qwen_path, 'r', encoding='utf-8') as f:
                         st.session_state.qwen_response = f.read()
-                else:
-                    st.session_state.qwen_response = "⚠️ **No response generated.** This model may be experiencing rate limits or errors."
-            except Exception as e:
-                error_messages.append(f"Alibaba Qwen file read: {str(e)}")
-                st.session_state.qwen_response = f"⚠️ **Error reading response:** {str(e)}"
 
-            # Kimi K2
-            try:
                 if kimik2_path.exists():
                     with open(kimik2_path, 'r', encoding='utf-8') as f:
                         st.session_state.kimik2_response = f.read()
-                else:
-                    st.session_state.kimik2_response = "⚠️ **No response generated.** This model may be experiencing rate limits or errors."
-            except Exception as e:
-                error_messages.append(f"Kimi K2 file read: {str(e)}")
-                st.session_state.kimik2_response = f"⚠️ **Error reading response:** {str(e)}"
 
-            progress_bar.progress(100)
+                progress_bar.progress(100)
+                status_text.text("All 6 AI agents have responded!")
+                time.sleep(1)
 
-            # Display appropriate status message
-            if error_messages:
-                successful_count = sum([
-                    1 for resp in [st.session_state.deepseek_response, st.session_state.openai_response,
-                                   st.session_state.gemini_response, st.session_state.llama_response,
-                                   st.session_state.qwen_response, st.session_state.kimik2_response]
-                    if resp and not resp.startswith("⚠️")
-                ])
-                status_text.text(
-                    f"✅ {successful_count} AI agents responded successfully! ({len(error_messages)} had errors)")
-            else:
-                status_text.text("✅ All 6 AI agents have responded!")
+        except Exception as e:
+            st.error(f"❌ An error occurred: {str(e)}")
+            st.exception(e)
 
-            time.sleep(1)
-
-            # Show error summary if there were issues
-            if error_messages:
-                with st.expander("⚠️ View Error Details", expanded=False):
-                    for error_msg in error_messages:
-                        st.warning(error_msg)
-
-        st.session_state.crew_running = False
+        finally:
+            st.session_state.crew_running = False
 
 elif run_button and not query:
     st.warning("⚠️ Please enter a question before getting AI responses.")
