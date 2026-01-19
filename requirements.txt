@@ -5,4 +5,4 @@ langchain-groq
 langchain-ollama
 requests
 groq
-
+google-genai
