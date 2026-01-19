@@ -1,0 +1,8 @@
+streamlit
+google
+python-dotenv
+langchain-groq
+langchain-ollama
+requests
+groq
+
